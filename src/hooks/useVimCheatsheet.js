@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import { fetchVimCheatsheet } from "../api/vimApi";
+import axios from "axios";
 
-const useVimCheatsheet = () => {
+export const useVimCheatsheet = () => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -9,9 +9,8 @@ const useVimCheatsheet = () => {
   useEffect(() => {
     const getData = async () => {
       try {
-        const result = await fetchVimCheatsheet();
-        console.log(result);
-        setData(result);
+        const response = await axios.get("https://vim-cheatsheet.onrender.com/api/vim-cheatsheet");
+        setData(response.data.data);
         setLoading(false);
       } catch (err) {
         setError(err.message);
